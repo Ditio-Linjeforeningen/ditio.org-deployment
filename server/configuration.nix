@@ -23,7 +23,7 @@
     description = "Ditio deploy user";
     extraGroups = [ "docker" ];
     openssh.authorizedKeys.keys = [ 
-      ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAICsK4/2jVXMMRkh8tGOK6Xsc6hYnOaNiaegTlhkkCL8K cepheus@desktop
+      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAICsK4/2jVXMMRkh8tGOK6Xsc6hYnOaNiaegTlhkkCL8K cepheus@desktop"
     ];
     home = "/home/ditio";
   };
