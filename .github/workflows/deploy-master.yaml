@@ -33,7 +33,18 @@ jobs:
           docker push $BACKEND_IMAGE:stable
           docker push $FRONTEND_IMAGE:stable
 
-      # 3 Deploy to server via SSH
+      # 3 Copy compose.yaml to server with SCP
+      - name: Copy compose file to server
+        uses: appleboy/scp-action@v1
+        with:
+          host: ${{ secrets.SERVER_HOST }}
+          username: ${{ secrets.SERVER_USER }}
+          key: ${{ secrets.SERVER_SSH_KEY }}
+          source: "docker-compose.yml"
+          target: "/srv/ditio"
+
+
+      # 4 Deploy to server via SSH
       - name: Deploy on server
         uses: appleboy/ssh-action@v1
         with:
