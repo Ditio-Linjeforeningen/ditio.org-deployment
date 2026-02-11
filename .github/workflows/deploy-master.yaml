@@ -53,12 +53,25 @@ jobs:
           key: ${{ secrets.SERVER_SSH_KEY }}
           script: |
             set -e
+            mkdir -p /srv/ditio
+            cd /srv/ditio
 
-            cd /srv/ditio   # <-- adjust to your compose directory
+            cat > .env << EOF
+            POSTGRES_USER=postgres
+            POSTGRES_PASSWORD=${{ secrets.POSTGRES_PASSWORD }}
+            POSTGRES_DB=postgres
+            SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/postgres
+            BACKEND_URL=http://backend
+            NGINX_CONF_FILE=prod.conf
 
-            # Make sure env uses stable
-            sed -i 's/^BACKEND_TAG=.*/BACKEND_TAG=stable/' .env
-            sed -i 's/^FRONTEND_TAG=.*/FRONTEND_TAG=stable/' .env
+            BACKEND_IMAGE=${{ env.BACKEND_IMAGE }}
+            FRONTEND_IMAGE=${{ env.FRONTEND_IMAGE }}
+            BACKEND_TAG=stable
+            FRONTEND_TAG=stable
+
+            EOF
+
+            chmod 600 .env
 
             docker compose pull
             docker compose up -d
