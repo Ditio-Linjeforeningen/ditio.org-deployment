@@ -1,0 +1,23 @@
+name: Bootstrap Server
+
+on:
+  workflow_dispatch:
+
+jobs:
+  bootstrap:
+    runs-on: ubuntu-latest
+    env:
+      SERVER_HOST: ${{ secrets.SERVER_HOST }}
+      SSH_BOOTSTRAP_KEY: ${{ secrets.SSH_BOOTSTRAP_KEY }}
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v6
+
+      - name: Install Nix (with flakes)
+        uses: cachix/install-nix-action@v31
+        with:
+          extra_options: "experimental-features = nix-command flakes"
+
+      - name: Run nixos-anywhere bootstrap
+        run: nix run .#nixos-anywhere-bootstrap
