@@ -32,6 +32,7 @@
 
   systemd.tmpfiles.rules = [
     "d /srv/ditio 0755 ditio ditio -"
+    "d /srv/ditio/nginx-conf 0755 ditio ditio -"
   ];
 
   users.users.root.openssh.authorizedKeys.keys = [
