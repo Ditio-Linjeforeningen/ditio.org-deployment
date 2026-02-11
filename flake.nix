@@ -33,21 +33,21 @@
             #!/usr/bin/env bash
             set -euo pipefail
 
-            if [ -z "$${SERVER_HOST:-}" ] || [ -z "$${SSH_BOOTSTRAP_KEY:-}" ]; then
+            if [ -z "''${SERVER_HOST:-}" ] || [ -z "''${SSH_BOOTSTRAP_KEY:-}" ]; then
               echo "ERROR: SERVER_HOST and SSH_BOOTSTRAP_KEY must be set"
               exit 1
             fi
 
             mkdir -p ~/.ssh
-            echo "$$SSH_BOOTSTRAP_KEY" > ~/.ssh/id_ed25519
+            echo "$SSH_BOOTSTRAP_KEY" > ~/.ssh/id_ed25519
             chmod 600 ~/.ssh/id_ed25519
 
             # Optionally add host to known_hosts to avoid prompts
-            ssh-keyscan -H "$$SERVER_HOST" >> ~/.ssh/known_hosts
+            ssh-keyscan -H "$SERVER_HOST" >> ~/.ssh/known_hosts
 
-            echo "Bootstrapping NixOS server at $$SERVER_HOST using SSH key..."
+            echo "Bootstrapping NixOS server at $SERVER_HOST using SSH key..."
 
-            nixos-anywhere --flake .#server root@$$SERVER_HOST --ssh-key ~/.ssh/id_ed25519 \
+            nixos-anywhere --flake .#server root@$SERVER_HOST --ssh-key ~/.ssh/id_ed25519 \
               --generate-hardware-config nixos-generate-config ./hardware-configuration.nix
           '';
         };
