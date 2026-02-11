@@ -33,7 +33,11 @@ jobs:
           docker push $BACKEND_IMAGE:stable
           docker push $FRONTEND_IMAGE:stable
 
-      # 3 Copy compose.yaml to server with SCP
+      # 3 Checkout code
+      - name: Checkout repo
+        uses: actions/checkout@v6
+
+      # 4 Copy compose.yaml to server with SCP
       - name: Copy compose file to server
         uses: appleboy/scp-action@v1
         with:
@@ -44,7 +48,7 @@ jobs:
           target: "/srv/ditio"
 
 
-      # 4 Deploy to server via SSH
+      # 5 Deploy to server via SSH
       - name: Deploy on server
         uses: appleboy/ssh-action@v1
         with:
