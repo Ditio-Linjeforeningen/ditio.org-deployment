@@ -47,8 +47,7 @@
 
             echo "Bootstrapping NixOS server at $SERVER_HOST using SSH key..."
 
-            nixos-anywhere --flake .#server root@"$SERVER_HOST" --ssh-key ~/.ssh/id_ed25519 \
-              --generate-hardware-config nixos-generate-config ./hardware-configuration.nix
+            nixos-anywhere --flake .#server root@"$SERVER_HOST" -i ~/.ssh/id_ed25519 --generate-hardware-config nixos-generate-config ./hardware-configuration.nix
           '';
         };
       };
